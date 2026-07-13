@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Уютная кофейня - Городской уголок</title>
+
+  <!-- Подключение шрифтов Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- ============================================================
+       БЛОК CSS - все стили страницы
+       ============================================================ -->
+  <style>
+
+    /* 1. Цветовая палитра */
+    :root {
+      --color-cream: #faf6f1;
+      --color-beige: #e8ddd0;
+      --color-latte: #c4a882;
+      --color-coffee: #6b4423;
+      --color-espresso: #3d2314;
+      --color-dark: #2a1810;
+      --color-white: #ffffff;
+      --shadow-soft: 0 4px 20px rgba(61, 35, 20, 0.08);
+      --shadow-hover: 0 12px 32px rgba(61, 35, 20, 0.15);
+      --transition: 0.3s ease;
+      --radius: 12px;
+      --max-width: 1200px;
+    }
+
+    /* 2. Сброс стандартных отступов браузера */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* 3. Базовые стили страницы */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--color-espresso);
+      background-color: var(--color-cream);
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    /* Контейнер: ограничивает ширину и центрирует контент */
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* 4. Шапка сайта */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background-color: rgba(250, 246, 241, 0.5);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--color-beige);
+    }
+
+    .header__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .logo {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-coffee);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color var(--transition);
+    }
+
+    .logo:hover {
+      color: var(--color-espresso);
+    }
+
+    .nav {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav__link {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--color-espresso);
+      text-decoration: none;
+      position: relative;
+      transition: color var(--transition);
+    }
+
+    .nav__link::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--color-coffee);
+      transition: width var(--transition);
+    }
+
+    .nav__link:hover {
+      color: var(--color-coffee);
+    }
+
+    .nav__link:hover::after {
+      width: 100%;
+    }
+
+    /* 5. Первый экран (Hero) */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      background: linear-gradient(160deg, var(--color-cream) 0%, var(--color-beige) 50%, #d4c4b0 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(196, 168, 130, 0.3) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero__content {
+      position: relative;
+      max-width: 700px;
+    }
+
+    .hero__badge {
+      display: inline-block;
+      padding: 6px 16px;
+      margin-bottom: 24px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-coffee);
+      background-color: rgba(255, 255, 255, 0.6);
+      border-radius: 50px;
+    }
+
+    .hero__title {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      color: var(--color-dark);
+      margin-bottom: 20px;
+    }
+
+    .hero__text {
+      font-size: 1.125rem;
+      color: var(--color-espresso);
+      opacity: 0.85;
+      margin-bottom: 36px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Кнопка */
+    .btn {
+      display: inline-block;
+      padding: 16px 36px;
+      font-family: "Inter", sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-white);
+      background-color: var(--color-coffee);
+      border: 2px solid var(--color-coffee);
+      border-radius: 50px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color var(--transition), color var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+
+    .btn:hover {
+      background-color: var(--color-espresso);
+      border-color: var(--color-espresso);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    /* 6. Общие стили секций */
+    .section {
+      padding: 100px 0;
+    }
+
+    .section__header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section__label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-latte);
+      margin-bottom: 12px;
+    }
+
+    .section__title {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      color: var(--color-dark);
+    }
+
+    /* 7. Секция Меню */
+    .menu {
+      background-color: var(--color-white);
+    }
+
+    .menu__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
+    }
+
+    .menu-card {
+      background-color: var(--color-cream);
+      border-radius: var(--radius);
+      padding: 32px 28px;S
+      border: 1px solid var(--color-beige);
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+
+    .menu-card:hover {
+      transform: translateY(-20px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--color-latte);
+    }
+
+    .menu-card__icon {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+
+    .menu-card__name {
+      font-size: 1.5rem;
+      color: var(--color-dark);
+      margin-bottom: 10px;
+    }
+
+    .menu-card__desc {
+      font-size: 0.95rem;
+      color: var(--color-espresso);
+      opacity: 0.8;
+      margin-bottom: 20px;
+    }
+
+    .menu-card__price {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--color-coffee);
+    }
+
+    /* 8. Секция О нас */
+    .about__inner {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .about__text {
+      flex: 1;
+    }
+
+    .about__text p {
+      margin-bottom: 16px;
+      color: var(--color-espresso);
+      opacity: 0.9;
+    }
+
+    .about__text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .about__image {
+      flex: 1;
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--color-beige) 0%, var(--color-latte) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-coffee);
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      border: 2px dashed var(--color-latte);
+      transition: transform var(--transition);
+    }
+
+    .about__image:hover {
+      transform: scale(1.02);
+    }
+
+    /* 9. Секция Контакты */
+    .contacts {
+      background-color: var(--color-white);
+    }
+
+    .contacts__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 32px;
+    }
+
+    .contact-card {
+      text-align: center;
+      padding: 40px 24px;
+      background-color: var(--color-cream);
+      border-radius: var(--radius);
+      border: 1px solid var(--color-beige);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .contact-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .contact-card__icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+
+    .contact-card__title {
+      font-size: 1.25rem;
+      color: var(--color-dark);
+      margin-bottom: 8px;
+    }
+
+    .contact-card__info {
+      font-size: 0.95rem;
+      color: var(--color-espresso);
+      opacity: 0.85;
+    }
+
+    /* 10. Подвал */
+    .footer {
+      background-color: var(--color-dark);
+      color: var(--color-beige);
+      text-align: center;
+      padding: 32px 24px;
+    }
+
+    .footer__text {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    /* 11. Адаптивность для мобильных */
+    @media (max-width: 768px) {
+      .nav {
+        gap: 20px;
+      }
+
+      .nav__link {
+        font-size: 0.85rem;
+      }
+
+      .logo {
+        font-size: 1.25rem;
+      }
+
+      .section {
+        padding: 70px 0;
+      }
+
+      .section__header {
+        margin-bottom: 40px;
+      }
+
+      .about__inner {
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      .hero {
+        padding-top: 100px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header__inner {
+        height: 64px;
+      }
+
+      .nav {
+        gap: 14px;
+      }
+
+      .btn {
+        padding: 14px 28px;
+        font-size: 0.95rem;
+      }
+    }
+
+  </style>
+  <!-- ==================== КОНЕЦ БЛОКА CSS ==================== -->
+</head>
+
+<body>
+
+  <!-- ============================================================
+       БЛОК HTML - разметка страницы
+       ============================================================ -->
+
+  <!-- Шапка: логотип и навигация -->
+  <header class="header">
+    <div class="container header__inner">
+      <a href="#" class="logo">Городской уголок</a>
+      <nav aria-label="Основная навигация">
+        <ul class="nav">
+          <li><a href="#about" class="nav__link">О нас</a></li>
+          <li><a href="#menu" class="nav__link">Меню</a></li>
+          <li><a href="#contacts" class="nav__link">Контакты</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero: первый экран -->
+    <section class="hero">
+      <div class="hero__content">
+        <span class="hero__badge">С 2018 года</span>
+        <h1 class="hero__title">Уютная кофейня в&nbsp;сердце города</h1>
+        <p class="hero__text">
+          Свежая обжарка, домашняя выпечка и атмосфера, в которую хочется возвращаться снова и снова.
+        </p>
+        <a href="#contacts" class="btn">Забронировать столик</a>
+      </div>
+    </section>
+
+    <!-- Секция Меню -->
+    <section id="menu" class="section menu">
+      <div class="container">
+        <div class="section__header">
+          <span class="section__label">Наше меню</span>
+          <h2 class="section__title">Напитки, которые согревают</h2>
+        </div>
+
+        <div class="menu__grid">
+          <article class="menu-card">
+            <div class="menu-card__icon" aria-hidden="true">&#9749;</div>
+            <h3 class="menu-card__name">Капучино</h3>
+            <p class="menu-card__desc">Классический итальянский капучино с нежной молочной пенкой и ароматной эспрессо-основой.</p>
+            <span class="menu-card__price">220 руб.</span>
+          </article>
+
+          <article class="menu-card">
+            <div class="menu-card__icon" aria-hidden="true">&#127861;</div>
+            <h3 class="menu-card__name">Раф ванильный</h3>
+            <p class="menu-card__desc">Нежный кофейный напиток на сливках с ванильным сиропом - наш бестселлер.</p>
+            <span class="menu-card__price">280 руб.</span>
+          </article>
+
+          <article class="menu-card">
+            <div class="menu-card__icon" aria-hidden="true">&#129750;</div>
+            <h3 class="menu-card__name">Фильтр-кофе</h3>
+            <p class="menu-card__desc">Альтернативное заваривание зерен эфиопской обжарки. Чистый вкус и яркая кислотность.</p>
+            <span class="menu-card__price">190 руб.</span>
+          </article>
+
+          <article class="menu-card">
+            <div class="menu-card__icon" aria-hidden="true">&#129483;</div>
+            <h3 class="menu-card__name">Айс-латте</h3>
+            <p class="menu-card__desc">Освежающий холодный латте со льдом - идеален в теплый день.</p>
+            <span class="menu-card__price">250 руб.</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Секция О нас -->
+    <section id="about" class="section about">
+      <div class="container">
+        <div class="section__header">
+          <span class="section__label">Наша история</span>
+          <h2 class="section__title">О нас</h2>
+        </div>
+
+        <div class="about__inner">
+          <div class="about__text">
+            <p>
+              "Городской уголок" - это место, где каждая чашка кофе готовится с любовью. Мы отбираем зерна у проверенных обжарщиков и печем выпечку каждое утро по семейным рецептам.
+            </p>
+            <p>
+              Наша кофейня - это не просто точка, где можно выпить кофе. Это пространство для встреч с друзьями, тихой работы за ноутбуком и неспешных воскресных завтраков.
+            </p>
+            <p>
+              Приходите - мы всегда рады новым гостям и старым друзьям.
+            </p>
+          </div>
+
+          <div class="about__image" role="img" aria-label="Место для фото интерьера кофейни">
+            Фото интерьера кофейни
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Секция Контакты -->
+    <section id="contacts" class="section contacts">
+      <div class="container">
+        <div class="section__header">
+          <span class="section__label">Как нас найти</span>
+          <h2 class="section__title">Контакты</h2>
+        </div>
+
+        <div class="contacts__grid">
+          <div class="contact-card">
+            <div class="contact-card__icon" aria-hidden="true">&#128205;</div>
+            <h3 class="contact-card__title">Адрес</h3>
+            <p class="contact-card__info">г. Москва, ул. Арбат, 24</p>
+          </div>
+
+          <div class="contact-card">
+            <div class="contact-card__icon" aria-hidden="true">&#128222;</div>
+            <h3 class="contact-card__title">Телефон</h3>
+            <p class="contact-card__info">+7 (495) 123-45-67</p>
+          </div>
+
+          <div class="contact-card">
+            <div class="contact-card__icon" aria-hidden="true">&#128336;</div>
+            <h3 class="contact-card__title">Время работы</h3>
+            <p class="contact-card__info">Пн-Пт: 8:00 - 22:00<br>Сб-Вс: 9:00 - 23:00</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Подвал -->
+  <footer class="footer">
+    <p class="footer__text">&copy; 2026 "Городской уголок". Все права защищены.</p>
+  </footer>
+
+  <!-- ==================== КОНЕЦ БЛОКА HTML ==================== -->
+</body>
+</html>
