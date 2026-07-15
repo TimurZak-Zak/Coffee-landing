@@ -1,584 +1,497 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Уютная кофейня - Городской уголок</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Городской уголок — кофейня в центре города</title>
+<meta name="description" content="Городской уголок — уютная кофейня: свежая обжарка, домашняя выпечка, авторские напитки. Бронь столика онлайн.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-cream: #faf6f1;
+    --color-beige: #e8ddd0;
+    --color-latte: #c4a882;
+    --color-coffee: #6b4423;
+    --color-espresso: #3d2314;
+    --color-dark: #2a1810;
+    --color-white: #ffffff;
+    --shadow-soft: 0 4px 20px rgba(61, 35, 20, 0.08);
+    --shadow-hover: 0 12px 32px rgba(61, 35, 20, 0.15);
+    --transition: 0.3s ease;
+    --radius: 14px;
+    --max-width: 1200px;
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:"Inter",sans-serif;font-size:16px;line-height:1.6;color:var(--color-espresso);background-color:var(--color-cream);overflow-x:hidden;}
+  h1,h2,h3{font-family:"Cormorant Garamond",serif;font-weight:600;line-height:1.15;}
+  img{max-width:100%;display:block;}
+  .container{max-width:var(--max-width);margin:0 auto;padding:0 24px;}
 
-  <!-- Подключение шрифтов Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  /* Reveal on scroll */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease, transform .8s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
 
-  <!-- ============================================================
-       БЛОК CSS - все стили страницы
-       ============================================================ -->
-  <style>
+  /* Header */
+  .header{position:fixed;top:0;left:0;right:0;z-index:100;background-color:rgba(250,246,241,0.85);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--color-beige);transition:box-shadow .3s ease;}
+  .header.scrolled{box-shadow:0 2px 16px rgba(61,35,20,0.06);}
+  .header__inner{display:flex;align-items:center;justify-content:space-between;height:76px;}
+  .logo{display:flex;align-items:center;gap:10px;font-family:"Cormorant Garamond",serif;font-size:1.5rem;font-weight:700;color:var(--color-coffee);text-decoration:none;letter-spacing:0.02em;}
+  .logo__mark{width:36px;height:36px;border-radius:50%;background:var(--color-coffee);color:var(--color-cream);display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+  .nav{display:flex;gap:32px;list-style:none;align-items:center;}
+  .nav__link{font-size:0.95rem;font-weight:500;color:var(--color-espresso);text-decoration:none;position:relative;transition:color var(--transition);}
+  .nav__link::after{content:"";position:absolute;bottom:-4px;left:0;width:0;height:2px;background-color:var(--color-coffee);transition:width var(--transition);}
+  .nav__link:hover{color:var(--color-coffee);}
+  .nav__link:hover::after{width:100%;}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+  .burger span{width:24px;height:2px;background:var(--color-espresso);}
 
-    /* 1. Цветовая палитра */
-    :root {
-      --color-cream: #faf6f1;
-      --color-beige: #e8ddd0;
-      --color-latte: #c4a882;
-      --color-coffee: #6b4423;
-      --color-espresso: #3d2314;
-      --color-dark: #2a1810;
-      --color-white: #ffffff;
-      --shadow-soft: 0 4px 20px rgba(61, 35, 20, 0.08);
-      --shadow-hover: 0 12px 32px rgba(61, 35, 20, 0.15);
-      --transition: 0.3s ease;
-      --radius: 12px;
-      --max-width: 1200px;
-    }
+  /* Hero */
+  .hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 80px;position:relative;overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;background:linear-gradient(100deg, rgba(250,246,241,0.97) 0%, rgba(250,246,241,0.9) 40%, rgba(42,24,16,0.6) 100%), url('https://loremflickr.com/1800/1200/espresso,bar?lock=21') center/cover;}
+  .hero__content{position:relative;max-width:640px;}
+  .hero__badge{display:inline-flex;align-items:center;gap:8px;padding:7px 18px;margin-bottom:24px;font-size:0.82rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-coffee);background-color:rgba(255,255,255,0.75);border-radius:50px;opacity:0;animation:riseIn .8s ease .1s forwards;}
+  .hero__title{font-size:clamp(2.6rem,6vw,4.2rem);color:var(--color-dark);margin-bottom:20px;opacity:0;animation:riseIn .8s ease .25s forwards;}
+  .hero__text{font-size:1.15rem;color:var(--color-espresso);opacity:0;max-width:480px;margin-bottom:36px;animation:riseIn .8s ease .4s forwards;}
+  .hero__actions{display:flex;gap:14px;flex-wrap:wrap;opacity:0;animation:riseIn .8s ease .55s forwards;}
+  @keyframes riseIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+  .hero__stats{display:flex;gap:2.6rem;margin-top:3.2rem;padding-top:2rem;border-top:1px solid rgba(61,35,20,0.15);opacity:0;animation:riseIn .8s ease .7s forwards;}
+  .hero__stat b{display:block;font-family:"Cormorant Garamond",serif;font-size:2rem;color:var(--color-coffee);}
+  .hero__stat span{font-size:0.78rem;color:var(--color-espresso);opacity:0.75;text-transform:uppercase;letter-spacing:0.04em;}
 
-    /* 2. Сброс стандартных отступов браузера */
-    *,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:16px 34px;font-family:"Inter",sans-serif;font-size:1rem;font-weight:600;color:var(--color-white);background-color:var(--color-coffee);border:2px solid var(--color-coffee);border-radius:50px;text-decoration:none;cursor:pointer;transition:all var(--transition);}
+  .btn:hover{background-color:var(--color-espresso);border-color:var(--color-espresso);transform:translateY(-3px);box-shadow:var(--shadow-hover);}
+  .btn-outline{background:transparent;color:var(--color-coffee);}
+  .btn-outline:hover{background:var(--color-coffee);color:var(--color-white);}
 
-    /* 3. Базовые стили страницы */
-    html {
-      scroll-behavior: smooth;
-    }
+  .section{padding:110px 0;}
+  .section__header{text-align:center;margin-bottom:60px;}
+  .section__label{display:block;font-size:0.85rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--color-latte);margin-bottom:12px;}
+  .section__title{font-size:clamp(2rem,4vw,2.75rem);color:var(--color-dark);}
+  .section__sub{max-width:560px;margin:16px auto 0;color:var(--color-espresso);opacity:0.75;}
 
-    body {
-      font-family: "Inter", sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
-      color: var(--color-espresso);
-      background-color: var(--color-cream);
-    }
+  /* Menu */
+  .menu{background-color:var(--color-white);}
+  .menu__tabs{display:flex;justify-content:center;gap:0.7rem;margin-bottom:3rem;flex-wrap:wrap;}
+  .menu__tab{padding:0.7rem 1.6rem;border:1.5px solid var(--color-beige);border-radius:50px;background:transparent;color:var(--color-espresso);font-family:"Inter",sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;transition:all .3s ease;}
+  .menu__tab.active{background:var(--color-coffee);border-color:var(--color-coffee);color:var(--color-white);}
+  .menu__tab:not(.active):hover{border-color:var(--color-coffee);}
+  .menu__grid{display:none;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px;}
+  .menu__grid.active{display:grid;}
+  .menu-card{background-color:var(--color-cream);border-radius:var(--radius);overflow:hidden;border:1px solid var(--color-beige);transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition);}
+  .menu-card:hover{transform:translateY(-10px);box-shadow:var(--shadow-hover);border-color:var(--color-latte);}
+  .menu-card__img{width:100%;height:170px;object-fit:cover;}
+  .menu-card__body{padding:24px 26px 28px;}
+  .menu-card__name{font-size:1.4rem;color:var(--color-dark);margin-bottom:8px;}
+  .menu-card__desc{font-size:0.92rem;color:var(--color-espresso);opacity:0.75;margin-bottom:16px;min-height:2.6em;}
+  .menu-card__price{font-family:"Cormorant Garamond",serif;font-size:1.6rem;font-weight:700;color:var(--color-coffee);}
 
-    h1,
-    h2,
-    h3 {
-      font-family: "Cormorant Garamond", serif;
-      font-weight: 600;
-      line-height: 1.2;
-    }
+  /* About */
+  .about__inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+  .about__text p{margin-bottom:16px;color:var(--color-espresso);opacity:0.9;}
+  .about__image{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;box-shadow:var(--shadow-soft);}
+  .about__image img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
+  .about__image:hover img{transform:scale(1.05);}
 
-    /* Контейнер: ограничивает ширину и центрирует контент */
-    .container {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 0 24px;
-    }
+  /* Gallery */
+  .gallery{background:var(--color-white);}
+  .gallery__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .gallery__grid a{display:block;border-radius:var(--radius);overflow:hidden;aspect-ratio:1/1;}
+  .gallery__grid img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease,filter .4s ease;filter:saturate(0.95);}
+  .gallery__grid a:hover img{transform:scale(1.08);filter:saturate(1.1);}
 
-    /* 4. Шапка сайта */
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      background-color: rgba(250, 246, 241, 0.5);
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--color-beige);
-    }
+  /* Testimonials */
+  .testimonials__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  .t-card{background:var(--color-cream);border-radius:var(--radius);padding:32px 28px;border:1px solid var(--color-beige);}
+  .t-card__stars{color:var(--color-latte);letter-spacing:2px;margin-bottom:14px;}
+  .t-card__text{font-size:0.95rem;color:var(--color-espresso);opacity:0.85;font-style:italic;margin-bottom:18px;line-height:1.7;}
+  .t-card__name{font-family:"Cormorant Garamond",serif;font-size:1.1rem;color:var(--color-dark);}
 
-    .header__inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 72px;
-    }
+  /* Reservation form */
+  .reserve{background:linear-gradient(160deg, var(--color-espresso) 0%, var(--color-dark) 100%);color:var(--color-cream);}
+  .reserve .section__title, .reserve h2{color:var(--color-cream);}
+  .reserve .section__sub{color:var(--color-beige);opacity:0.7;}
+  .reserve-form{max-width:640px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .reserve-form .full{grid-column:1/-1;}
+  .reserve-form label{display:block;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;color:var(--color-latte);}
+  .reserve-form input, .reserve-form textarea, .reserve-form select{width:100%;padding:13px 16px;border-radius:8px;border:1px solid rgba(232,221,208,0.25);background:rgba(255,255,255,0.06);color:var(--color-cream);font-family:"Inter",sans-serif;font-size:0.95rem;}
+  .reserve-form input::placeholder, .reserve-form textarea::placeholder{color:rgba(250,246,241,0.4);}
+  .reserve-form input:focus, .reserve-form textarea:focus, .reserve-form select:focus{outline:none;border-color:var(--color-latte);}
+  .reserve-form textarea{resize:vertical;min-height:90px;}
+  .reserve-form button{margin-top:6px;}
+  .form-status{margin-top:14px;font-size:0.88rem;}
+  .form-status.success{color:#a8d8b0;}
+  .form-status.error{color:#e8a5a5;}
 
-    .logo {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--color-coffee);
-      text-decoration: none;
-      letter-spacing: 0.02em;
-      transition: color var(--transition);
-    }
+  /* Contacts */
+  .contacts{background-color:var(--color-white);}
+  .contacts__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px;}
+  .contact-card{text-align:center;padding:40px 24px;background-color:var(--color-cream);border-radius:var(--radius);border:1px solid var(--color-beige);transition:transform var(--transition),box-shadow var(--transition);}
+  .contact-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-soft);}
+  .contact-card__icon{color:var(--color-coffee);margin-bottom:16px;display:flex;justify-content:center;}
+  .contact-card__icon svg{width:26px;height:26px;}
+  .contact-card__title{font-size:1.25rem;color:var(--color-dark);margin-bottom:8px;}
+  .contact-card__info{font-size:0.95rem;color:var(--color-espresso);opacity:0.85;}
 
-    .logo:hover {
-      color: var(--color-espresso);
-    }
+  .footer{background-color:var(--color-dark);color:var(--color-beige);text-align:center;padding:36px 24px;}
+  .footer__text{font-size:0.9rem;opacity:0.75;}
 
-    .nav {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
-
-    .nav__link {
-      font-size: 0.95rem;
-      font-weight: 500;
-      color: var(--color-espresso);
-      text-decoration: none;
-      position: relative;
-      transition: color var(--transition);
-    }
-
-    .nav__link::after {
-      content: "";
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background-color: var(--color-coffee);
-      transition: width var(--transition);
-    }
-
-    .nav__link:hover {
-      color: var(--color-coffee);
-    }
-
-    .nav__link:hover::after {
-      width: 100%;
-    }
-
-    /* 5. Первый экран (Hero) */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 120px 24px 80px;
-      background: linear-gradient(160deg, var(--color-cream) 0%, var(--color-beige) 50%, #d4c4b0 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: -20%;
-      right: -10%;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(196, 168, 130, 0.3) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero__content {
-      position: relative;
-      max-width: 700px;
-    }
-
-    .hero__badge {
-      display: inline-block;
-      padding: 6px 16px;
-      margin-bottom: 24px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--color-coffee);
-      background-color: rgba(255, 255, 255, 0.6);
-      border-radius: 50px;
-    }
-
-    .hero__title {
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      color: var(--color-dark);
-      margin-bottom: 20px;
-    }
-
-    .hero__text {
-      font-size: 1.125rem;
-      color: var(--color-espresso);
-      opacity: 0.85;
-      margin-bottom: 36px;
-      max-width: 520px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* Кнопка */
-    .btn {
-      display: inline-block;
-      padding: 16px 36px;
-      font-family: "Inter", sans-serif;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--color-white);
-      background-color: var(--color-coffee);
-      border: 2px solid var(--color-coffee);
-      border-radius: 50px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background-color var(--transition), color var(--transition), transform var(--transition), box-shadow var(--transition);
-    }
-
-    .btn:hover {
-      background-color: var(--color-espresso);
-      border-color: var(--color-espresso);
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-hover);
-    }
-
-    /* 6. Общие стили секций */
-    .section {
-      padding: 100px 0;
-    }
-
-    .section__header {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-
-    .section__label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--color-latte);
-      margin-bottom: 12px;
-    }
-
-    .section__title {
-      font-size: clamp(2rem, 4vw, 2.75rem);
-      color: var(--color-dark);
-    }
-
-    /* 7. Секция Меню */
-    .menu {
-      background-color: var(--color-white);
-    }
-
-    .menu__grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 28px;
-    }
-
-    .menu-card {
-      background-color: var(--color-cream);
-      border-radius: var(--radius);
-      padding: 32px 28px;S
-      border: 1px solid var(--color-beige);
-      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-    }
-
-    .menu-card:hover {
-      transform: translateY(-20px);
-      box-shadow: var(--shadow-hover);
-      border-color: var(--color-latte);
-    }
-
-    .menu-card__icon {
-      font-size: 2.5rem;
-      margin-bottom: 16px;
-    }
-
-    .menu-card__name {
-      font-size: 1.5rem;
-      color: var(--color-dark);
-      margin-bottom: 10px;
-    }
-
-    .menu-card__desc {
-      font-size: 0.95rem;
-      color: var(--color-espresso);
-      opacity: 0.8;
-      margin-bottom: 20px;
-    }
-
-    .menu-card__price {
-      font-family: "Cormorant Garamond", serif;
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--color-coffee);
-    }
-
-    /* 8. Секция О нас */
-    .about__inner {
-      display: flex;
-      align-items: center;
-      gap: 60px;
-    }
-
-    .about__text {
-      flex: 1;
-    }
-
-    .about__text p {
-      margin-bottom: 16px;
-      color: var(--color-espresso);
-      opacity: 0.9;
-    }
-
-    .about__text p:last-child {
-      margin-bottom: 0;
-    }
-
-    .about__image {
-      flex: 1;
-      aspect-ratio: 4 / 3;
-      border-radius: var(--radius);
-      background: linear-gradient(135deg, var(--color-beige) 0%, var(--color-latte) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--color-coffee);
-      font-size: 0.9rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      border: 2px dashed var(--color-latte);
-      transition: transform var(--transition);
-    }
-
-    .about__image:hover {
-      transform: scale(1.02);
-    }
-
-    /* 9. Секция Контакты */
-    .contacts {
-      background-color: var(--color-white);
-    }
-
-    .contacts__grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 32px;
-    }
-
-    .contact-card {
-      text-align: center;
-      padding: 40px 24px;
-      background-color: var(--color-cream);
-      border-radius: var(--radius);
-      border: 1px solid var(--color-beige);
-      transition: transform var(--transition), box-shadow var(--transition);
-    }
-
-    .contact-card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .contact-card__icon {
-      font-size: 2rem;
-      margin-bottom: 16px;
-    }
-
-    .contact-card__title {
-      font-size: 1.25rem;
-      color: var(--color-dark);
-      margin-bottom: 8px;
-    }
-
-    .contact-card__info {
-      font-size: 0.95rem;
-      color: var(--color-espresso);
-      opacity: 0.85;
-    }
-
-    /* 10. Подвал */
-    .footer {
-      background-color: var(--color-dark);
-      color: var(--color-beige);
-      text-align: center;
-      padding: 32px 24px;
-    }
-
-    .footer__text {
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
-
-    /* 11. Адаптивность для мобильных */
-    @media (max-width: 768px) {
-      .nav {
-        gap: 20px;
-      }
-
-      .nav__link {
-        font-size: 0.85rem;
-      }
-
-      .logo {
-        font-size: 1.25rem;
-      }
-
-      .section {
-        padding: 70px 0;
-      }
-
-      .section__header {
-        margin-bottom: 40px;
-      }
-
-      .about__inner {
-        flex-direction: column;
-        gap: 40px;
-      }
-
-      .hero {
-        padding-top: 100px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .header__inner {
-        height: 64px;
-      }
-
-      .nav {
-        gap: 14px;
-      }
-
-      .btn {
-        padding: 14px 28px;
-        font-size: 0.95rem;
-      }
-    }
-
-  </style>
-  <!-- ==================== КОНЕЦ БЛОКА CSS ==================== -->
+  @media (max-width:900px){
+    .about__inner{grid-template-columns:1fr;}
+    .gallery__grid{grid-template-columns:repeat(2,1fr);}
+    .testimonials__grid{grid-template-columns:1fr;}
+    .reserve-form{grid-template-columns:1fr;}
+    .hero__stats{gap:1.6rem;}
+  }
+  @media (max-width:768px){
+    .nav{position:fixed;top:76px;right:0;height:calc(100svh - 76px);width:70vw;max-width:300px;background:var(--color-cream);flex-direction:column;justify-content:flex-start;padding:2.4rem;gap:1.6rem;transform:translateX(100%);transition:transform .4s ease;border-left:1px solid var(--color-beige);}
+    .nav.open{transform:translateX(0);}
+    .burger{display:flex;}
+    .section{padding:70px 0;}
+  }
+</style>
 </head>
 
 <body>
 
-  <!-- ============================================================
-       БЛОК HTML - разметка страницы
-       ============================================================ -->
+<header class="header" id="siteHeader">
+  <div class="container header__inner">
+    <a href="#" class="logo"><span class="logo__mark">☕</span>Городской уголок</a>
+    <nav id="mainNav">
+      <ul class="nav">
+        <li><a href="#about" class="nav__link">О нас</a></li>
+        <li><a href="#menu" class="nav__link">Меню</a></li>
+        <li><a href="#gallery" class="nav__link">Галерея</a></li>
+        <li><a href="#reserve" class="nav__link">Бронь</a></li>
+        <li><a href="#contacts" class="nav__link">Контакты</a></li>
+      </ul>
+    </nav>
+    <div class="burger" id="burger"><span></span><span></span><span></span></div>
+  </div>
+</header>
 
-  <!-- Шапка: логотип и навигация -->
-  <header class="header">
-    <div class="container header__inner">
-      <a href="#" class="logo">Городской уголок</a>
-      <nav aria-label="Основная навигация">
-        <ul class="nav">
-          <li><a href="#about" class="nav__link">О нас</a></li>
-          <li><a href="#menu" class="nav__link">Меню</a></li>
-          <li><a href="#contacts" class="nav__link">Контакты</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+<main>
 
-  <main>
-
-    <!-- Hero: первый экран -->
-    <section class="hero">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container">
       <div class="hero__content">
         <span class="hero__badge">С 2018 года</span>
         <h1 class="hero__title">Уютная кофейня в&nbsp;сердце города</h1>
-        <p class="hero__text">
-          Свежая обжарка, домашняя выпечка и атмосфера, в которую хочется возвращаться снова и снова.
-        </p>
-        <a href="#contacts" class="btn">Забронировать столик</a>
-      </div>
-    </section>
-
-    <!-- Секция Меню -->
-    <section id="menu" class="section menu">
-      <div class="container">
-        <div class="section__header">
-          <span class="section__label">Наше меню</span>
-          <h2 class="section__title">Напитки, которые согревают</h2>
+        <p class="hero__text">Свежая обжарка, домашняя выпечка и атмосфера, в которую хочется возвращаться снова и снова.</p>
+        <div class="hero__actions">
+          <a href="#reserve" class="btn">Забронировать столик</a>
+          <a href="#menu" class="btn btn-outline">Смотреть меню</a>
         </div>
+        <div class="hero__stats">
+          <div class="hero__stat"><b>7</b><span>лет на районе</span></div>
+          <div class="hero__stat"><b>18</b><span>видов кофе</span></div>
+          <div class="hero__stat"><b>4.8</b><span>рейтинг гостей</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="menu__grid">
-          <article class="menu-card">
-            <div class="menu-card__icon" aria-hidden="true">&#9749;</div>
+  <section id="menu" class="section menu">
+    <div class="container">
+      <div class="section__header reveal">
+        <span class="section__label">Наше меню</span>
+        <h2 class="section__title">Напитки и выпечка, которые согревают</h2>
+      </div>
+
+      <div class="menu__tabs reveal">
+        <button type="button" class="menu__tab active" data-tab="drinks">Напитки</button>
+        <button type="button" class="menu__tab" data-tab="food">Выпечка и еда</button>
+      </div>
+
+      <div class="menu__grid active" id="menu-drinks">
+        <article class="menu-card reveal">
+          <img class="menu-card__img" src="https://loremflickr.com/400/300/espresso,coffee?lock=1" alt="Капучино" loading="lazy">
+          <div class="menu-card__body">
             <h3 class="menu-card__name">Капучино</h3>
             <p class="menu-card__desc">Классический итальянский капучино с нежной молочной пенкой и ароматной эспрессо-основой.</p>
-            <span class="menu-card__price">220 руб.</span>
-          </article>
-
-          <article class="menu-card">
-            <div class="menu-card__icon" aria-hidden="true">&#127861;</div>
+            <span class="menu-card__price">220 ₽</span>
+          </div>
+        </article>
+        <article class="menu-card reveal">
+          <img class="menu-card__img" src="https://loremflickr.com/400/300/flatwhite?lock=2" alt="Раф ванильный" loading="lazy">
+          <div class="menu-card__body">
             <h3 class="menu-card__name">Раф ванильный</h3>
-            <p class="menu-card__desc">Нежный кофейный напиток на сливках с ванильным сиропом - наш бестселлер.</p>
-            <span class="menu-card__price">280 руб.</span>
-          </article>
-
-          <article class="menu-card">
-            <div class="menu-card__icon" aria-hidden="true">&#129750;</div>
+            <p class="menu-card__desc">Нежный кофейный напиток на сливках с ванильным сиропом — наш бестселлер.</p>
+            <span class="menu-card__price">280 ₽</span>
+          </div>
+        </article>
+        <article class="menu-card reveal">
+          <img class="menu-card__img" src="https://loremflickr.com/400/300/pourover,coffee?lock=3" alt="Фильтр-кофе" loading="lazy">
+          <div class="menu-card__body">
             <h3 class="menu-card__name">Фильтр-кофе</h3>
-            <p class="menu-card__desc">Альтернативное заваривание зерен эфиопской обжарки. Чистый вкус и яркая кислотность.</p>
-            <span class="menu-card__price">190 руб.</span>
-          </article>
-
-          <article class="menu-card">
-            <div class="menu-card__icon" aria-hidden="true">&#129483;</div>
+            <p class="menu-card__desc">Альтернативное заваривание зёрен эфиопской обжарки. Чистый вкус и яркая кислотность.</p>
+            <span class="menu-card__price">190 ₽</span>
+          </div>
+        </article>
+        <article class="menu-card reveal">
+          <img class="menu-card__img" src="https://loremflickr.com/400/300/icedcoffee?lock=4" alt="Айс-латте" loading="lazy">
+          <div class="menu-card__body">
             <h3 class="menu-card__name">Айс-латте</h3>
-            <p class="menu-card__desc">Освежающий холодный латте со льдом - идеален в теплый день.</p>
-            <span class="menu-card__price">250 руб.</span>
-          </article>
+            <p class="menu-card__desc">Освежающий холодный латте со льдом — идеален в тёплый день.</p>
+            <span class="menu-card__price">250 ₽</span>
+          </div>
+        </article>
+        <article class="menu-card reveal">
+          <img class="menu-card__img" src="https://loremflickr.com/400/300/matcha,tea?lock=5" alt="Матча-латте" loading="lazy">
+          <div class="menu-card__body">
+            <h3 class="menu-card__name">Матча-латте</h3>
+            <p class="menu-card__desc">Японский зелёный чай матча, взбитый с тёплым молоком — бодрит без резкости кофеина.</p>
+            <span class="menu-card__price">260 ₽</span>
+          </div>
+        </article>
+        <article class="menu-card reveal">
+          <img class="menu-card__img" src="https://loremflickr.com/400/300/hotchocolate?lock=6" alt="Какао" loading="lazy">
+          <div class="menu-card__body">
+            <h3 class="menu-card__name">Какао на цельном молоке</h3>
+            <p class="menu-card__desc">Густое домашнее какао с зефирками — детский вкус во взрослой чашке.</p>
+            <span class="menu-card__price">210 ₽</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="menu__grid" id="menu-food">
+        <article class="menu-card reveal">
+          <img class="menu-card__img" src="https://loremflickr.com/400/300/croissant?lock=7" alt="Круассан" loading="lazy">
+          <div class="menu-card__body">
+            <h3 class="menu-card__name">Круассан классический</h3>
+            <p class="menu-card__desc">Слоёное французское тесто, выпекаем каждое утро — хрустящий снаружи, воздушный внутри.</p>
+            <span class="menu-card__price">180 ₽</span>
+          </div>
+        </article>
+        <article class="menu-card reveal">
+          <img class="menu-card__img" src="https://loremflickr.com/400/300/cheesecake?lock=8" alt="Чизкейк" loading="lazy">
+          <div class="menu-card__body">
+            <h3 class="menu-card__name">Чизкейк Нью-Йорк</h3>
+            <p class="menu-card__desc">Классический сырный чизкейк на песочной основе, по семейному рецепту.</p>
+            <span class="menu-card__price">320 ₽</span>
+          </div>
+        </article>
+        <article class="menu-card reveal">
+          <img class="menu-card__img" src="https://loremflickr.com/400/300/syrniki,pancake?lock=9" alt="Сырники" loading="lazy">
+          <div class="menu-card__body">
+            <h3 class="menu-card__name">Сырники со сметаной</h3>
+            <p class="menu-card__desc">Домашние сырники из творога, подаём с ягодным соусом и сметаной.</p>
+            <span class="menu-card__price">340 ₽</span>
+          </div>
+        </article>
+        <article class="menu-card reveal">
+          <img class="menu-card__img" src="https://loremflickr.com/400/300/avocadotoast?lock=10" alt="Тост с авокадо" loading="lazy">
+          <div class="menu-card__body">
+            <h3 class="menu-card__name">Тост с авокадо</h3>
+            <p class="menu-card__desc">Цельнозерновой тост, авокадо-крем, яйцо пашот и чили-хлопья.</p>
+            <span class="menu-card__price">380 ₽</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section about">
+    <div class="container">
+      <div class="section__header reveal">
+        <span class="section__label">Наша история</span>
+        <h2 class="section__title">О нас</h2>
+      </div>
+      <div class="about__inner">
+        <div class="about__text reveal">
+          <p>«Городской уголок» — это место, где каждая чашка кофе готовится с любовью. Мы отбираем зёрна у проверенных обжарщиков и печём выпечку каждое утро по семейным рецептам.</p>
+          <p>Наша кофейня — это не просто точка, где можно выпить кофе. Это пространство для встреч с друзьями, тихой работы за ноутбуком и неспешных воскресных завтраков.</p>
+          <p>Приходите — мы всегда рады новым гостям и старым друзьям.</p>
+        </div>
+        <div class="about__image reveal">
+          <img src="https://loremflickr.com/800/600/coffeeshop,interior?lock=11" alt="Интерьер кофейни Городской уголок" loading="lazy">
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Секция О нас -->
-    <section id="about" class="section about">
-      <div class="container">
-        <div class="section__header">
-          <span class="section__label">Наша история</span>
-          <h2 class="section__title">О нас</h2>
+  <section id="gallery" class="section gallery">
+    <div class="container">
+      <div class="section__header reveal">
+        <span class="section__label">Атмосфера</span>
+        <h2 class="section__title">Место, в которое хочется вернуться</h2>
+      </div>
+      <div class="gallery__grid">
+        <a class="reveal"><img src="https://loremflickr.com/500/500/latteart?lock=12" alt="Латте-арт" loading="lazy"></a>
+        <a class="reveal"><img src="https://loremflickr.com/500/500/coffeebeans?lock=13" alt="Кофейные зёрна" loading="lazy"></a>
+        <a class="reveal"><img src="https://loremflickr.com/500/500/bakery,pastry?lock=14" alt="Выпечка" loading="lazy"></a>
+        <a class="reveal"><img src="https://loremflickr.com/500/500/barista?lock=15" alt="Бариста за работой" loading="lazy"></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section testimonials">
+    <div class="container">
+      <div class="section__header reveal">
+        <span class="section__label">Отзывы гостей</span>
+        <h2 class="section__title">Что говорят о нас</h2>
+      </div>
+      <div class="testimonials__grid">
+        <div class="t-card reveal">
+          <div class="t-card__stars">★★★★★</div>
+          <p class="t-card__text">«Захожу сюда почти каждое утро по пути на работу — раф всегда идеальный, а бариста помнят мой заказ».</p>
+          <div class="t-card__name">Марина К.</div>
         </div>
-
-        <div class="about__inner">
-          <div class="about__text">
-            <p>
-              "Городской уголок" - это место, где каждая чашка кофе готовится с любовью. Мы отбираем зерна у проверенных обжарщиков и печем выпечку каждое утро по семейным рецептам.
-            </p>
-            <p>
-              Наша кофейня - это не просто точка, где можно выпить кофе. Это пространство для встреч с друзьями, тихой работы за ноутбуком и неспешных воскресных завтраков.
-            </p>
-            <p>
-              Приходите - мы всегда рады новым гостям и старым друзьям.
-            </p>
-          </div>
-
-          <div class="about__image" role="img" aria-label="Место для фото интерьера кофейни">
-            Фото интерьера кофейни
-          </div>
+        <div class="t-card reveal">
+          <div class="t-card__stars">★★★★★</div>
+          <p class="t-card__text">«Лучшие сырники в городе, серьёзно. И атмосфера располагает — можно спокойно посидеть с ноутбуком часами».</p>
+          <div class="t-card__name">Дмитрий В.</div>
+        </div>
+        <div class="t-card reveal">
+          <div class="t-card__stars">★★★★★</div>
+          <p class="t-card__text">«Приятно удивил фильтр-кофе на эфиопских зёрнах — редко где варят так аккуратно».</p>
+          <div class="t-card__name">Алина С.</div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Секция Контакты -->
-    <section id="contacts" class="section contacts">
-      <div class="container">
-        <div class="section__header">
-          <span class="section__label">Как нас найти</span>
-          <h2 class="section__title">Контакты</h2>
+  <section id="reserve" class="section reserve">
+    <div class="container">
+      <div class="section__header reveal">
+        <span class="section__label">Бронирование</span>
+        <h2 class="section__title">Забронировать столик</h2>
+        <p class="section__sub">Оставьте заявку — подтвердим бронь по телефону или почте в течение часа.</p>
+      </div>
+      <form class="reserve-form reveal" id="reserveForm">
+        <div>
+          <label for="r-name">Имя</label>
+          <input id="r-name" name="name" type="text" placeholder="Как к вам обращаться" required>
         </div>
+        <div>
+          <label for="r-phone">Телефон или email</label>
+          <input id="r-phone" name="contact" type="text" placeholder="+7 ... или email" required>
+        </div>
+        <div>
+          <label for="r-date">Дата и время</label>
+          <input id="r-date" name="datetime" type="datetime-local" required>
+        </div>
+        <div>
+          <label for="r-guests">Гостей</label>
+          <select id="r-guests" name="guests">
+            <option>1-2</option>
+            <option>3-4</option>
+            <option>5+</option>
+          </select>
+        </div>
+        <div class="full">
+          <label for="r-message">Комментарий</label>
+          <textarea id="r-message" name="message" placeholder="Пожелания к столику, повод и т.п."></textarea>
+        </div>
+        <div class="full">
+          <button type="submit" class="btn" id="reserveSubmit">Отправить заявку</button>
+          <p class="form-status" id="reserveStatus"></p>
+        </div>
+      </form>
+    </div>
+  </section>
 
-        <div class="contacts__grid">
-          <div class="contact-card">
-            <div class="contact-card__icon" aria-hidden="true">&#128205;</div>
-            <h3 class="contact-card__title">Адрес</h3>
-            <p class="contact-card__info">г. Москва, ул. Арбат, 24</p>
-          </div>
-
-          <div class="contact-card">
-            <div class="contact-card__icon" aria-hidden="true">&#128222;</div>
-            <h3 class="contact-card__title">Телефон</h3>
-            <p class="contact-card__info">+7 (495) 123-45-67</p>
-          </div>
-
-          <div class="contact-card">
-            <div class="contact-card__icon" aria-hidden="true">&#128336;</div>
-            <h3 class="contact-card__title">Время работы</h3>
-            <p class="contact-card__info">Пн-Пт: 8:00 - 22:00<br>Сб-Вс: 9:00 - 23:00</p>
-          </div>
+  <section id="contacts" class="section contacts">
+    <div class="container">
+      <div class="section__header reveal">
+        <span class="section__label">Как нас найти</span>
+        <h2 class="section__title">Контакты</h2>
+      </div>
+      <div class="contacts__grid">
+        <div class="contact-card reveal">
+          <div class="contact-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6.4 7-12a7 7 0 1 0-14 0c0 5.6 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg></div>
+          <h3 class="contact-card__title">Адрес</h3>
+          <p class="contact-card__info">г. Москва, ул. Арбат, 24</p>
+        </div>
+        <div class="contact-card reveal">
+          <div class="contact-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.5 21 3 13.5 3 4.9c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1.1L6.6 10.8z"/></svg></div>
+          <h3 class="contact-card__title">Телефон</h3>
+          <p class="contact-card__info">+7 (495) 123-45-67</p>
+        </div>
+        <div class="contact-card reveal">
+          <div class="contact-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg></div>
+          <h3 class="contact-card__title">Время работы</h3>
+          <p class="contact-card__info">Пн–Пт: 8:00–22:00<br>Сб–Вс: 9:00–23:00</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-  </main>
+</main>
 
-  <!-- Подвал -->
-  <footer class="footer">
-    <p class="footer__text">&copy; 2026 "Городской уголок". Все права защищены.</p>
-  </footer>
+<footer class="footer">
+  <p class="footer__text">© 2026 «Городской уголок». Все права защищены.</p>
+</footer>
 
-  <!-- ==================== КОНЕЦ БЛОКА HTML ==================== -->
+<script>
+  // Header scroll state + mobile nav
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 20), { passive: true });
+  const burger = document.getElementById('burger');
+  const nav = document.getElementById('mainNav');
+  burger.addEventListener('click', () => nav.classList.toggle('open'));
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+
+  // Scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Menu tabs
+  document.querySelectorAll('.menu__tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.menu__tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.menu__grid').forEach(g => g.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('menu-' + tab.dataset.tab).classList.add('active');
+    });
+  });
+
+  // ---------- Форма бронирования (Web3Forms) ----------
+  // Получи бесплатный ключ на web3forms.com (email + подтверждение) и вставь вместо строки ниже:
+  const WEB3FORMS_ACCESS_KEY = 'ВСТАВЬ_СЮДА_СВОЙ_КЛЮЧ_С_WEB3FORMS';
+
+  const form = document.getElementById('reserveForm');
+  const submitBtn = document.getElementById('reserveSubmit');
+  const statusEl = document.getElementById('reserveStatus');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (WEB3FORMS_ACCESS_KEY.startsWith('ВСТАВЬ')) {
+      statusEl.textContent = 'Форма пока не подключена: нужно вставить ключ Web3Forms в код.';
+      statusEl.className = 'form-status error';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    const formData = new FormData(form);
+    formData.append('access_key', WEB3FORMS_ACCESS_KEY);
+    formData.append('subject', 'Новая бронь — Городской уголок');
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
+      const data = await res.json();
+      if (data.success) {
+        statusEl.textContent = 'Заявка отправлена! Мы подтвердим бронь в течение часа.';
+        statusEl.className = 'form-status success';
+        form.reset();
+      } else {
+        statusEl.textContent = 'Не получилось отправить. Попробуйте ещё раз позже.';
+        statusEl.className = 'form-status error';
+      }
+    } catch (err) {
+      statusEl.textContent = 'Ошибка сети. Проверьте подключение к интернету.';
+      statusEl.className = 'form-status error';
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+
 </body>
 </html>
