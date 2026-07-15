@@ -452,45 +452,32 @@
     });
   });
 
-  // ---------- Форма бронирования (Web3Forms) ----------
-  // Получи бесплатный ключ на web3forms.com (email + подтверждение) и вставь вместо строки ниже:
-  const WEB3FORMS_ACCESS_KEY = 'ВСТАВЬ_СЮДА_СВОЙ_КЛЮЧ_С_WEB3FORMS';
-
+  // ---------- Форма бронирования (демо-режим) ----------
+  // Это демонстрационный проект для портфолио, поэтому форма не отправляет
+  // реальные письма — она проверяет ввод и показывает подтверждение.
+  // Чтобы подключить настоящую доставку заявок на почту, достаточно
+  // получить бесплатный ключ на web3forms.com и отправлять FormData на
+  // https://api.web3forms.com/submit (код готов к такой доработке).
   const form = document.getElementById('reserveForm');
   const submitBtn = document.getElementById('reserveSubmit');
   const statusEl = document.getElementById('reserveStatus');
 
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    if (WEB3FORMS_ACCESS_KEY.startsWith('ВСТАВЬ')) {
-      statusEl.textContent = 'Форма пока не подключена: нужно вставить ключ Web3Forms в код.';
-      statusEl.className = 'form-status error';
-      return;
-    }
+    if (!form.reportValidity()) return;
 
     submitBtn.disabled = true;
-    const formData = new FormData(form);
-    formData.append('access_key', WEB3FORMS_ACCESS_KEY);
-    formData.append('subject', 'Новая бронь — Городской уголок');
+    submitBtn.textContent = 'Отправляем…';
 
-    try {
-      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
-      const data = await res.json();
-      if (data.success) {
-        statusEl.textContent = 'Заявка отправлена! Мы подтвердим бронь в течение часа.';
-        statusEl.className = 'form-status success';
-        form.reset();
-      } else {
-        statusEl.textContent = 'Не получилось отправить. Попробуйте ещё раз позже.';
-        statusEl.className = 'form-status error';
-      }
-    } catch (err) {
-      statusEl.textContent = 'Ошибка сети. Проверьте подключение к интернету.';
-      statusEl.className = 'form-status error';
-    } finally {
+    // Имитация запроса на сервер
+    setTimeout(() => {
+      statusEl.textContent = 'Заявка принята! В демо-версии письмо не отправляется — на рабочем сайте здесь придёт уведомление о брони.';
+      statusEl.className = 'form-status success';
+      form.reset();
       submitBtn.disabled = false;
-    }
+      submitBtn.textContent = 'Отправить заявку';
+    }, 700);
   });
 </script>
 
